@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+.DS_Store
+.env
+.envrc
+.databrickscfg
+*.log
+
+# Analysis outputs that may contain customer data — keep in repo only after review
+outputs/raw/
+outputs/*.parquet
