@@ -1,0 +1,79 @@
+digraph G {
+  rankdir=LR;
+  graph [bgcolor="white", fontname="Helvetica", pad=0.5, splines=true, overlap=false, nodesep=0.4, ranksep=0.8];
+  node  [fontname="Helvetica", fontsize=10, shape=box, style="rounded,filled", fillcolor="#ECEFF1", penwidth=1.0];
+  edge  [fontname="Helvetica", fontsize=8, color="#607D8B"];
+  subgraph cluster_std {
+    label="STD"; style=rounded; color="#CFD8DC"; fontsize=12;
+    "adpcoe_dev_std_restricted (std)" [label="adpcoe_dev_std_restricted (std)"];
+    "fdp_dev_std_internal (std)" [label="fdp_dev_std_internal (std)"];
+    "fdp_prd_std_confidential (std)" [label="fdp_prd_std_confidential (std)"];
+    "fdp_prd_std_internal (std)" [label="fdp_prd_std_internal (std)"];
+  }
+  subgraph cluster_itg {
+    label="ITG"; style=rounded; color="#CFD8DC"; fontsize=12;
+    "fdp_dev_itg_internal (itg)" [label="fdp_dev_itg_internal (itg)"];
+    "fdp_dev_itg_restricted (itg)" [label="fdp_dev_itg_restricted (itg)"];
+    "fdp_prd_itg_internal (itg)" [label="fdp_prd_itg_internal (itg)"];
+    "fdp_prd_itg_restricted (itg)" [label="fdp_prd_itg_restricted (itg)"];
+    "soda_prd_itg_internal (itg)" [label="soda_prd_itg_internal (itg)"];
+  }
+  subgraph cluster_srv {
+    label="SRV"; style=rounded; color="#CFD8DC"; fontsize=12;
+    "fdp_dev_srv_internal (srv)" [label="fdp_dev_srv_internal (srv)"];
+    "fdp_dev_srv_restricted (srv)" [label="fdp_dev_srv_restricted (srv)"];
+    "fdp_prd_srv_internal (srv)" [label="fdp_prd_srv_internal (srv)"];
+    "fdp_prd_srv_restricted (srv)" [label="fdp_prd_srv_restricted (srv)"];
+    "fdp_tst_srv_internal (srv)" [label="fdp_tst_srv_internal (srv)"];
+  }
+  "fdp_prd_std_internal (std)" -> "fdp_prd_std_internal (std)" [label="839 edges\n620,513 ev", penwidth=3.30];
+  "fdp_dev_std_internal (std)" -> "fdp_dev_std_internal (std)" [label="633 edges\n8,826 ev", penwidth=2.61];
+  "fdp_prd_std_internal (std)" -> "fdp_prd_itg_internal (itg)" [label="310 edges\n163,731 ev", penwidth=1.53];
+  "fdp_dev_std_internal (std)" -> "fdp_dev_itg_internal (itg)" [label="99 edges\n1,926 ev", penwidth=0.83];
+  "fdp_prd_itg_internal (itg)" -> "fdp_prd_srv_internal (srv)" [label="99 edges\n134,099 ev", penwidth=0.83];
+  "fdp_dev_std_internal (std)" -> "fdp_dev_srv_internal (srv)" [label="86 edges\n316 ev", penwidth=0.79];
+  "fdp_prd_std_internal (std)" -> "fdp_prd_srv_internal (srv)" [label="76 edges\n70,845 ev", penwidth=0.75];
+  "fdp_prd_std_confidential (std)" -> "fdp_prd_itg_restricted (itg)" [label="69 edges\n12,127 ev", penwidth=0.73];
+  "fdp_prd_srv_internal (srv)" -> "fdp_prd_srv_internal (srv)" [label="54 edges\n8,842 ev", penwidth=0.68];
+  "fdp_prd_std_internal (std)" -> "fdp_prd_itg_restricted (itg)" [label="52 edges\n3,556 ev", penwidth=0.67];
+  "fdp_dev_srv_internal (srv)" -> "fdp_dev_srv_internal (srv)" [label="49 edges\n104 ev", penwidth=0.66];
+  "fdp_prd_std_internal (std)" -> "fdp_prd_std_confidential (std)" [label="42 edges\n3,720 ev", penwidth=0.64];
+  "fdp_prd_itg_internal (itg)" -> "fdp_prd_itg_internal (itg)" [label="39 edges\n35,477 ev", penwidth=0.63];
+  "fdp_prd_itg_internal (itg)" -> "fdp_prd_itg_restricted (itg)" [label="39 edges\n3,280 ev", penwidth=0.63];
+  "fdp_dev_itg_internal (itg)" -> "fdp_dev_itg_internal (itg)" [label="38 edges\n853 ev", penwidth=0.63];
+  "fdp_prd_std_confidential (std)" -> "fdp_prd_std_confidential (std)" [label="36 edges\n7,750 ev", penwidth=0.62];
+  "fdp_prd_itg_restricted (itg)" -> "fdp_prd_itg_restricted (itg)" [label="35 edges\n2,149 ev", penwidth=0.62];
+  "fdp_dev_itg_internal (itg)" -> "fdp_dev_itg_restricted (itg)" [label="31 edges\n873 ev", penwidth=0.60];
+  "fdp_prd_itg_restricted (itg)" -> "fdp_prd_srv_restricted (srv)" [label="28 edges\n109,837 ev", penwidth=0.59];
+  "fdp_prd_itg_internal (itg)" -> "fdp_prd_srv_restricted (srv)" [label="25 edges\n322 ev", penwidth=0.58];
+  "fdp_dev_itg_internal (itg)" -> "fdp_dev_srv_internal (srv)" [label="25 edges\n229 ev", penwidth=0.58];
+  "fdp_prd_itg_internal (itg)" -> "fdp_prd_std_confidential (std)" [label="18 edges\n1,622 ev", penwidth=0.56];
+  "adpcoe_dev_std_restricted (std)" -> "adpcoe_dev_std_restricted (std)" [label="13 edges\n339 ev", penwidth=0.54];
+  "fdp_prd_std_internal (std)" -> "fdp_prd_srv_restricted (srv)" [label="12 edges\n130 ev", penwidth=0.54];
+  "fdp_prd_itg_internal (itg)" -> "fdp_dev_itg_internal (itg)" [label="12 edges\n17 ev", penwidth=0.54];
+  "fdp_prd_srv_internal (srv)" -> "adpcoe_dev_std_restricted (std)" [label="12 edges\n180 ev", penwidth=0.54];
+  "fdp_dev_itg_restricted (itg)" -> "fdp_dev_itg_restricted (itg)" [label="10 edges\n181 ev", penwidth=0.53];
+  "fdp_prd_std_internal (std)" -> "fdp_dev_std_internal (std)" [label="9 edges\n109 ev", penwidth=0.53];
+  "fdp_prd_std_confidential (std)" -> "fdp_prd_srv_restricted (srv)" [label="8 edges\n809 ev", penwidth=0.53];
+  "fdp_prd_itg_restricted (itg)" -> "fdp_prd_itg_internal (itg)" [label="8 edges\n1,579 ev", penwidth=0.53];
+  "fdp_dev_std_internal (std)" -> "fdp_dev_itg_restricted (itg)" [label="8 edges\n164 ev", penwidth=0.53];
+  "fdp_dev_itg_restricted (itg)" -> "fdp_dev_itg_internal (itg)" [label="7 edges\n180 ev", penwidth=0.52];
+  "fdp_dev_itg_restricted (itg)" -> "fdp_dev_srv_internal (srv)" [label="6 edges\n40 ev", penwidth=0.52];
+  "fdp_dev_itg_restricted (itg)" -> "fdp_dev_srv_restricted (srv)" [label="6 edges\n49 ev", penwidth=0.52];
+  "fdp_prd_srv_internal (srv)" -> "fdp_dev_std_internal (std)" [label="6 edges\n15 ev", penwidth=0.52];
+  "fdp_prd_std_confidential (std)" -> "fdp_prd_itg_internal (itg)" [label="4 edges\n3,987 ev", penwidth=0.51];
+  "fdp_prd_itg_restricted (itg)" -> "fdp_prd_srv_internal (srv)" [label="4 edges\n9,802 ev", penwidth=0.51];
+  "fdp_dev_srv_restricted (srv)" -> "fdp_dev_srv_restricted (srv)" [label="4 edges\n14 ev", penwidth=0.51];
+  "fdp_prd_srv_restricted (srv)" -> "fdp_prd_srv_restricted (srv)" [label="4 edges\n28,717 ev", penwidth=0.51];
+  "fdp_prd_srv_restricted (srv)" -> "fdp_prd_itg_internal (itg)" [label="3 edges\n68 ev", penwidth=0.51];
+  "fdp_prd_srv_internal (srv)" -> "soda_prd_itg_internal (itg)" [label="2 edges\n180 ev", penwidth=0.51];
+  "fdp_dev_std_internal (std)" -> "fdp_dev_srv_restricted (srv)" [label="1 edges\n4 ev", penwidth=0.50];
+  "fdp_dev_std_internal (std)" -> "fdp_tst_srv_internal (srv)" [label="1 edges\n1 ev", penwidth=0.50];
+  "fdp_prd_srv_restricted (srv)" -> "fdp_prd_srv_internal (srv)" [label="1 edges\n257 ev", penwidth=0.50];
+  "fdp_prd_itg_restricted (itg)" -> "adpcoe_dev_std_restricted (std)" [label="1 edges\n372 ev", penwidth=0.50];
+  "fdp_prd_srv_internal (srv)" -> "fdp_prd_std_internal (std)" [label="1 edges\n90 ev", penwidth=0.50];
+  "fdp_prd_srv_internal (srv)" -> "fdp_prd_itg_internal (itg)" [label="1 edges\n73 ev", penwidth=0.50];
+  "fdp_prd_srv_restricted (srv)" -> "adpcoe_dev_std_restricted (std)" [label="1 edges\n14 ev", penwidth=0.50];
+  "fdp_prd_std_confidential (std)" -> "fdp_prd_std_internal (std)" [label="1 edges\n90 ev", penwidth=0.50];
+  "soda_prd_itg_internal (itg)" -> "soda_prd_itg_internal (itg)" [label="1 edges\n180 ev", penwidth=0.50];
+}

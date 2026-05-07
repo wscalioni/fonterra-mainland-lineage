@@ -1,0 +1,78 @@
+digraph G {
+  rankdir=LR;
+  graph [bgcolor="white", fontname="Helvetica", pad=0.5, splines=true, overlap=false];
+  node  [fontname="Helvetica", fontsize=9, shape=box, style="rounded,filled", penwidth=1.0];
+  edge  [fontname="Helvetica", fontsize=8, color="#90A4AE"];
+  // Layer columns (rank=same)
+  subgraph cluster_std {
+    label="STD"; style=rounded; color="#CFD8DC"; fontsize=11;
+    "fdp_dev_std_internal.std_internal_anzsap.master_data_material_unit_of_measure_hist" [label="std_internal_anzsap.master_data_material_unit_of_measure_hist", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=0 dn=3 seps=mat"];
+    "fdp_dev_std_internal.std_internal_korora.kotahireferences" [label="std_internal_korora.kotahireferences", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=0 dn=3 seps="];
+    "fdp_dev_std_internal.std_internal_korora.kotahireferences_bol" [label="std_internal_korora.kotahireferences_bol", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=0 dn=4 seps="];
+    "fdp_dev_std_internal.std_internal_scv.scv_eventhub_bronzetable" [label="std_internal_scv.scv_eventhub_bronzetable", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=0 dn=3 seps="];
+    "fdp_dev_std_internal.std_internal_scv.scv_eventhub_bronzetable_20260407" [label="std_internal_scv.scv_eventhub_bronzetable_20260407", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=1 dn=3 seps="];
+    "fdp_dev_std_internal.std_internal_scv.scv_eventhub_bronzetable_prd" [label="std_internal_scv.scv_eventhub_bronzetable_prd", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=1 dn=5 seps="];
+    "fdp_dev_std_internal.std_internal_scv.scv_eventhub_bronzetable_updt_30032026" [label="std_internal_scv.scv_eventhub_bronzetable_updt_30032026", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=1 dn=2 seps="];
+    "fdp_prd_std_confidential.std_confidential_sapenthanadb.consolidated_profit_and_loss_actual" [label="std_confidential_sapenthanadb.consolidated_profit_and_loss_actual", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=3 dn=4 seps=biz"];
+    "fdp_prd_std_confidential.std_confidential_sapenthanadb.consolidated_profit_and_loss_actual__zcq_data_hub_consolpnl" [label="std_confidential_sapenthanadb.consolidated_profit_and_loss_actual__zcq_data_hub_consolpnl", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=0 dn=10 seps=biz,cust,mat"];
+    "fdp_prd_std_confidential.std_confidential_sapenthanadb.consolidated_profit_and_loss_actual_plan" [label="std_confidential_sapenthanadb.consolidated_profit_and_loss_actual_plan", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=2 dn=2 seps=biz"];
+    "fdp_prd_std_confidential.std_confidential_sapenthanadb.consolidated_profit_and_loss_plan" [label="std_confidential_sapenthanadb.consolidated_profit_and_loss_plan", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=3 dn=3 seps=biz"];
+    "fdp_prd_std_confidential.std_confidential_sapenthanadb.consolidated_profit_and_loss_plan__zcq_data_hub_consolpnl" [label="std_confidential_sapenthanadb.consolidated_profit_and_loss_plan__zcq_data_hub_consolpnl", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=0 dn=10 seps=biz,cust,mat"];
+    "fdp_prd_std_confidential.std_confidential_sapenthanadb.unconsolidated_profit_and_loss_actual__zcv_data_hub_actualpnl" [label="std_confidential_sapenthanadb.unconsolidated_profit_and_loss_actual__zcv_data_hub_actualpnl", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=4 dn=4 seps=biz,cust,mat"];
+    "fdp_prd_std_confidential.std_confidential_sapenthanadb.unconsolidated_profit_and_loss_actual_agg_collapsed" [label="std_confidential_sapenthanadb.unconsolidated_profit_and_loss_actual_agg_collapsed", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=2 dn=9 seps=biz,cust,mat"];
+    "fdp_prd_std_confidential.std_confidential_sapenthanadb.unconsolidated_profit_and_loss_plan__zcv_data_hub_forecastpnl" [label="std_confidential_sapenthanadb.unconsolidated_profit_and_loss_plan__zcv_data_hub_forecastpnl", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=0 dn=5 seps=biz,cust,mat"];
+    "fdp_prd_std_confidential.std_confidential_sapenthanadb.unconsolidated_profit_and_loss_plan_agg_collapsed" [label="std_confidential_sapenthanadb.unconsolidated_profit_and_loss_plan_agg_collapsed", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=2 dn=9 seps=biz,cust,mat"];
+    "fdp_prd_std_internal.std_internal_afp.my_customer" [label="std_internal_afp.my_customer", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=6 dn=1 seps="];
+    "fdp_prd_std_internal.std_internal_anzsap.master_data_material_unit_of_measure_hist" [label="std_internal_anzsap.master_data_material_unit_of_measure_hist", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=0 dn=4 seps=mat"];
+    "fdp_prd_std_internal.std_internal_cfin.md_dim_date" [label="std_internal_cfin.md_dim_date", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=1 dn=4 seps="];
+    "fdp_prd_std_internal.std_internal_manual_cfin.consolidated_reporting_hierarchy" [label="std_internal_manual_cfin.consolidated_reporting_hierarchy", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=0 dn=3 seps="];
+    "fdp_prd_std_internal.std_internal_sapentbw.company_code_s4__zs4compco" [label="std_internal_sapentbw.company_code_s4__zs4compco", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=1 dn=23 seps="];
+    "fdp_prd_std_internal.std_internal_scv.scv_eventhub_bronzetable" [label="std_internal_scv.scv_eventhub_bronzetable", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=0 dn=3 seps="];
+    "fdp_prd_std_internal.std_internal_sea_afp.int_my_customer" [label="std_internal_sea_afp.int_my_customer", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=6 dn=1 seps="];
+    "fdp_prd_std_internal.std_internal_source_to_pay.vim_parked_docs_anz" [label="std_internal_source_to_pay.vim_parked_docs_anz", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=3 dn=2 seps=biz,loc"];
+    "fdp_prd_std_internal.std_internal_sup.dm_material_composition" [label="std_internal_sup.dm_material_composition", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=4 dn=2 seps="];
+    "fdp_prd_std_internal.std_internal_tpm.shipment_baseline__int304" [label="std_internal_tpm.shipment_baseline__int304", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=11 dn=0 seps="];
+  }
+  subgraph cluster_itg {
+    label="ITG"; style=rounded; color="#CFD8DC"; fontsize=11;
+    "fdp_dev_itg_internal.itg_internal_finance.dim_supplier" [label="itg_internal_finance.dim_supplier", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=5 dn=7 seps="];
+    "fdp_dev_itg_internal.itg_internal_korora.shipment_container_tracking_agg_fonterra" [label="itg_internal_korora.shipment_container_tracking_agg_fonterra", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=1 dn=2 seps="];
+    "fdp_dev_itg_internal.itg_internal_scv.indirect_sales" [label="itg_internal_scv.indirect_sales", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=1 dn=2 seps=mat,so"];
+    "fdp_dev_itg_internal.itg_internal_scv.japan_customer_stock_sales" [label="itg_internal_scv.japan_customer_stock_sales", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=1 dn=2 seps=mat,so"];
+    "fdp_dev_itg_internal.itg_internal_scv.switch_indirect" [label="itg_internal_scv.switch_indirect", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=1 dn=2 seps=mat,so"];
+    "fdp_dev_itg_internal.itg_internal_scv.warehouse_replenishment" [label="itg_internal_scv.warehouse_replenishment", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=1 dn=2 seps=mat,so"];
+    "fdp_dev_itg_internal.itg_internal_source_to_pay.dim_purchase_order_profile" [label="itg_internal_source_to_pay.dim_purchase_order_profile", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=7 dn=4 seps="];
+    "fdp_dev_itg_internal.itg_internal_source_to_pay.dim_supplier_invoice_profile" [label="itg_internal_source_to_pay.dim_supplier_invoice_profile", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=2 dn=4 seps="];
+    "fdp_dev_itg_restricted.itg_restricted_finance.stg_source_to_pay_purchase_order" [label="itg_restricted_finance.stg_source_to_pay_purchase_order", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=3 dn=7 seps="];
+    "fdp_prd_itg_internal.itg_internal_finance.dim_supplier" [label="itg_internal_finance.dim_supplier", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=5 dn=8 seps="];
+    "fdp_prd_itg_internal.itg_internal_finance.open_po" [label="itg_internal_finance.open_po", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=5 dn=1 seps=loc"];
+    "fdp_prd_itg_internal.itg_internal_sapentbw.vw_material_ent" [label="itg_internal_sapentbw.vw_material_ent", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=1 dn=5 seps="];
+    "fdp_prd_itg_internal.itg_internal_sapentbw.vw_profit_centre_ent" [label="itg_internal_sapentbw.vw_profit_centre_ent", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=1 dn=4 seps="];
+    "fdp_prd_itg_internal.itg_internal_source_to_pay.dim_purchase_order_profile" [label="itg_internal_source_to_pay.dim_purchase_order_profile", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=7 dn=5 seps="];
+    "fdp_prd_itg_internal.itg_internal_source_to_pay.dim_supplier_invoice_profile" [label="itg_internal_source_to_pay.dim_supplier_invoice_profile", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=2 dn=5 seps="];
+    "fdp_prd_itg_internal.itg_internal_source_to_pay.fact_accounting_document_payment_terms" [label="itg_internal_source_to_pay.fact_accounting_document_payment_terms", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=5 dn=1 seps="];
+    "fdp_prd_itg_internal.itg_internal_source_to_pay.fact_ml_recategorisation_spend" [label="itg_internal_source_to_pay.fact_ml_recategorisation_spend", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=3 dn=1 seps="];
+    "fdp_prd_itg_internal.itg_internal_sup.fact_delivery" [label="itg_internal_sup.fact_delivery", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=3 dn=1 seps="];
+    "fdp_prd_itg_restricted.itg_restricted_finance.stg_source_to_pay_purchase_order" [label="itg_restricted_finance.stg_source_to_pay_purchase_order", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=3 dn=7 seps="];
+    "fdp_prd_itg_restricted.itg_restricted_people_data.department_hierarchy" [label="itg_restricted_people_data.department_hierarchy", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=2 dn=8 seps="];
+    "fdp_prd_itg_restricted.itg_restricted_people_data.positions" [label="itg_restricted_people_data.positions", fillcolor="#D32F2F", fontcolor="#FFFFFF", tooltip="CO_MINGLED_DOWNSTREAM | up=2 dn=2 seps=biz"];
+  }
+  subgraph cluster_srv {
+    label="SRV"; style=rounded; color="#CFD8DC"; fontsize=11;
+    "fdp_dev_srv_internal.srv_internal_sapanzecc.block_qi_stock" [label="srv_internal_sapanzecc.block_qi_stock", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=8 dn=0 seps="];
+    "fdp_prd_srv_internal.srv_internal_sapanzecc.block_qi_stock" [label="srv_internal_sapanzecc.block_qi_stock", fillcolor="#E65100", fontcolor="#FFFFFF", tooltip="CO_MINGLED_UPSTREAM | up=8 dn=0 seps=loc"];
+  }
+  "fdp_dev_std_internal.std_internal_scv.scv_eventhub_bronzetable_prd" -> "fdp_dev_std_internal.std_internal_scv.scv_eventhub_bronzetable_updt_30032026" [penwidth=0.51];
+  "fdp_prd_itg_restricted.itg_restricted_people_data.department_hierarchy" -> "fdp_prd_itg_restricted.itg_restricted_people_data.positions" [penwidth=0.94];
+  "fdp_prd_std_confidential.std_confidential_sapenthanadb.consolidated_profit_and_loss_actual" -> "fdp_prd_std_confidential.std_confidential_sapenthanadb.consolidated_profit_and_loss_actual_plan" [penwidth=3.00];
+  "fdp_prd_std_confidential.std_confidential_sapenthanadb.consolidated_profit_and_loss_actual__zcq_data_hub_consolpnl" -> "fdp_prd_std_confidential.std_confidential_sapenthanadb.consolidated_profit_and_loss_actual" [penwidth=0.96];
+  "fdp_prd_std_confidential.std_confidential_sapenthanadb.consolidated_profit_and_loss_plan" -> "fdp_prd_std_confidential.std_confidential_sapenthanadb.consolidated_profit_and_loss_actual_plan" [penwidth=3.00];
+  "fdp_prd_std_confidential.std_confidential_sapenthanadb.consolidated_profit_and_loss_plan__zcq_data_hub_consolpnl" -> "fdp_prd_std_confidential.std_confidential_sapenthanadb.consolidated_profit_and_loss_plan" [penwidth=0.95];
+  "fdp_prd_std_confidential.std_confidential_sapenthanadb.unconsolidated_profit_and_loss_actual__zcv_data_hub_actualpnl" -> "fdp_prd_std_confidential.std_confidential_sapenthanadb.unconsolidated_profit_and_loss_actual_agg_collapsed" [penwidth=0.95];
+  "fdp_prd_std_confidential.std_confidential_sapenthanadb.unconsolidated_profit_and_loss_plan__zcv_data_hub_forecastpnl" -> "fdp_prd_std_confidential.std_confidential_sapenthanadb.unconsolidated_profit_and_loss_plan_agg_collapsed" [penwidth=1.40];
+  "fdp_prd_std_internal.std_internal_sapentbw.company_code_s4__zs4compco" -> "fdp_prd_std_confidential.std_confidential_sapenthanadb.unconsolidated_profit_and_loss_actual__zcv_data_hub_actualpnl" [penwidth=0.85];
+  "fdp_prd_std_internal.std_internal_scv.scv_eventhub_bronzetable" -> "fdp_dev_std_internal.std_internal_scv.scv_eventhub_bronzetable_20260407" [penwidth=0.63];
+  "fdp_prd_std_internal.std_internal_scv.scv_eventhub_bronzetable" -> "fdp_dev_std_internal.std_internal_scv.scv_eventhub_bronzetable_prd" [penwidth=0.80];
+  "fdp_prd_std_internal.std_internal_source_to_pay.vim_parked_docs_anz" -> "fdp_prd_itg_internal.itg_internal_source_to_pay.fact_accounting_document_payment_terms" [penwidth=0.96];
+  "fdp_prd_std_internal.std_internal_sup.dm_material_composition" -> "fdp_prd_itg_internal.itg_internal_sup.fact_delivery" [penwidth=0.51];
+}
