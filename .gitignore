@@ -11,3 +11,16 @@ __pycache__/
 # Analysis outputs that may contain customer data — keep in repo only after review
 outputs/raw/
 outputs/*.parquet
+
+# App + bundle
+app/.venv/
+app/__pycache__/
+app/**/__pycache__/
+.databricks/
+*.bundle.lock
+
+# Large outputs (PNG/SVG keep, HTML excluded — too big for git)
+outputs/*.html
+
+# Local dev secrets
+.env
