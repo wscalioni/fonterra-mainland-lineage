@@ -25,7 +25,11 @@ def obo_client() -> WorkspaceClient:
         token = request.headers.get("X-Forwarded-Access-Token")
         if token:
             host = os.environ.get("DATABRICKS_HOST") or _host_from_request()
-            return WorkspaceClient(host=host, token=token)
+            # Force PAT-only auth — the Apps runtime also sets
+            # DATABRICKS_CLIENT_ID/SECRET for the SP's OAuth, and the SDK
+            # refuses when both are configured. We want OBO via the user's
+            # forwarded token, not SP OAuth.
+            return WorkspaceClient(host=host, token=token, auth_type="pat")
     return WorkspaceClient()
 
 
