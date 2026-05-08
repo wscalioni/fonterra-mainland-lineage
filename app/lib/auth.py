@@ -25,11 +25,18 @@ def obo_client() -> WorkspaceClient:
         token = request.headers.get("X-Forwarded-Access-Token")
         if token:
             host = os.environ.get("DATABRICKS_HOST") or _host_from_request()
-            # Force PAT-only auth — the Apps runtime also sets
-            # DATABRICKS_CLIENT_ID/SECRET for the SP's OAuth, and the SDK
-            # refuses when both are configured. We want OBO via the user's
-            # forwarded token, not SP OAuth.
-            return WorkspaceClient(host=host, token=token, auth_type="pat")
+            # The Apps runtime injects DATABRICKS_CLIENT_ID/SECRET for the
+            # SP's OAuth flow. The SDK's Config validate counts both that
+            # and our PAT as "configured" and raises ValueError. Passing
+            # client_id="" / client_secret="" makes the SDK treat them as
+            # unset (falsy), leaving only PAT as the configured method.
+            return WorkspaceClient(
+                host=host,
+                token=token,
+                auth_type="pat",
+                client_id="",
+                client_secret="",
+            )
     return WorkspaceClient()
 
 

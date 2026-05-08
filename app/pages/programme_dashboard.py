@@ -54,8 +54,8 @@ def _load(_n):
         classified = data_loader.load_classified(client, warehouse_id=WAREHOUSE, working_schema=SCHEMA)
         status = data_loader.load_pinchpoint_status(client, warehouse_id=WAREHOUSE, working_schema=SCHEMA)
         refresh = data_loader.load_refresh_control(client, warehouse_id=WAREHOUSE, working_schema=SCHEMA)
-    except RuntimeError as e:
-        return [], [], html.Div(f"Permission or query error: {e}", className="app-error")
+    except Exception as e:
+        return [], [], html.Div(f"{type(e).__name__}: {e}", className="app-error")
 
     pinchpoints = classified[classified["category"].str.startswith("CO_MINGLED")]
     cleared = status[status["status"] == "Cleared"] if not status.empty else pd.DataFrame()
