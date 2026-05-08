@@ -20,31 +20,56 @@ STATUS_OPTIONS = ["Pending", "UC Tagged", "Row Filter Applied", "Attested", "Cle
 
 def layout():
     return html.Div([
-        html.H2("Pinch-point tracker", className="mt-3"),
-        html.P("49 CO_MINGLED nodes — set separation status to track progress."),
-        html.Div(id="pp-progress", className="mb-3"),
-        html.Div(id="pp-error", className="text-danger"),
-        dash_table.DataTable(
-            id="pp-table",
-            columns=[
-                {"name": "Node", "id": "node"},
-                {"name": "Category", "id": "category"},
-                {"name": "Schema", "id": "schema"},
-                {"name": "Up/Dn", "id": "ud"},
-                {"name": "Status", "id": "status", "presentation": "dropdown", "editable": True},
-                {"name": "Notes", "id": "notes", "editable": True},
-            ],
-            dropdown={"status": {"options": [{"label": s, "value": s} for s in STATUS_OPTIONS]}},
-            data=[],
-            style_cell={"fontSize": "0.85em", "fontFamily": "system-ui"},
-            style_data_conditional=[
-                {"if": {"filter_query": "{status} = 'Cleared'"}, "backgroundColor": "#E8F5E9"},
-                {"if": {"filter_query": "{category} = 'CO_MINGLED_DOWNSTREAM'"},
-                 "borderLeft": "4px solid #D32F2F"},
-                {"if": {"filter_query": "{category} = 'CO_MINGLED_UPSTREAM'"},
-                 "borderLeft": "4px solid #E65100"},
-            ],
+        html.Div("Engineering backlog", className="app-eyebrow"),
+        html.H2("Pinch-point tracker"),
+        html.P(
+            "49 CO_MINGLED nodes that bridge Mainland and retained data. "
+            "Edit the Status column to record progress.",
+            className="app-page__subtitle",
         ),
+        html.Div(id="pp-progress"),
+        html.Div(id="pp-error"),
+        html.Div([
+            dash_table.DataTable(
+                id="pp-table",
+                columns=[
+                    {"name": "Node", "id": "node"},
+                    {"name": "Category", "id": "category"},
+                    {"name": "Schema", "id": "schema"},
+                    {"name": "Up / Dn", "id": "ud"},
+                    {"name": "Status", "id": "status", "presentation": "dropdown", "editable": True},
+                    {"name": "Notes", "id": "notes", "editable": True},
+                ],
+                dropdown={"status": {"options": [{"label": s, "value": s} for s in STATUS_OPTIONS]}},
+                data=[],
+                style_cell={
+                    "fontFamily": "Assistant, system-ui, sans-serif",
+                    "fontSize": "13px",
+                    "padding": "10px 8px",
+                    "border": "0",
+                    "borderBottom": "1px solid var(--rule)",
+                    "textAlign": "left",
+                },
+                style_header={
+                    "fontWeight": "700",
+                    "textTransform": "uppercase",
+                    "letterSpacing": "0.06em",
+                    "fontSize": "11px",
+                    "color": "var(--ink)",
+                    "borderBottom": "2px solid var(--ink)",
+                    "background": "var(--canvas)",
+                },
+                style_data_conditional=[
+                    {"if": {"filter_query": "{status} = 'Cleared'"}, "backgroundColor": "#F0FDF4"},
+                    {"if": {"filter_query": "{category} = 'CO_MINGLED_DOWNSTREAM'", "column_id": "category"},
+                     "color": "var(--danger)", "fontWeight": "700"},
+                    {"if": {"filter_query": "{category} = 'CO_MINGLED_UPSTREAM'", "column_id": "category"},
+                     "color": "var(--warning)", "fontWeight": "700"},
+                ],
+                style_as_list_view=True,
+                page_size=50,
+            ),
+        ]),
         dcc.Store(id="pp-user", data={"email": "unknown@databricks.com"}),
         dcc.Interval(id="pp-load-once", n_intervals=0, max_intervals=1, interval=100),
     ])
@@ -52,11 +77,55 @@ def layout():
 
 def _build_rows(classified, status):
     pp = classified[classified["category"].str.startswith("CO_MINGLED")].copy()
-    pp = pp.merge(status[["node", "status", "notes"]], on="node", how="left") if not status.empty else pp.assign(status=None, notes=None)
+    pp = (
+        pp.merge(status[["node", "status", "notes"]], on="node", how="left")
+        if not status.empty
+        else pp.assign(status=None, notes=None)
+    )
     pp["status"] = pp["status"].fillna("Pending")
     pp["notes"] = pp["notes"].fillna("")
     pp["ud"] = pp["n_upstream"].astype(str) + " / " + pp["n_downstream"].astype(str)
     return pp[["node", "category", "schema", "ud", "status", "notes"]].to_dict("records")
+
+
+def _progress_banner(cleared: int, total: int) -> html.Div:
+    pct = round(100 * cleared / max(1, total))
+    return html.Div(
+        [
+            html.Div(
+                [
+                    html.Div("Progress", className="app-kpi-card__label"),
+                    html.Div(f"{cleared} / {total}", className="app-kpi-card__value"),
+                    html.Div(f"{pct}% cleared", className="app-kpi-card__sub"),
+                ],
+                style={
+                    "background": "var(--surface)",
+                    "border": "1px solid var(--rule)",
+                    "padding": "20px 22px",
+                    "minWidth": "200px",
+                },
+            ),
+            html.Div(
+                style={
+                    "flex": "1",
+                    "background": "var(--rule)",
+                    "height": "8px",
+                    "alignSelf": "center",
+                    "marginLeft": "24px",
+                    "position": "relative",
+                    "overflow": "hidden",
+                },
+                children=html.Div(
+                    style={
+                        "background": "var(--fonterra-green)",
+                        "width": f"{pct}%",
+                        "height": "100%",
+                    }
+                ),
+            ),
+        ],
+        style={"display": "flex", "alignItems": "stretch", "marginBottom": "32px"},
+    )
 
 
 @callback(
@@ -67,19 +136,16 @@ def _build_rows(classified, status):
 )
 def _initial(_n):
     if not WAREHOUSE:
-        return [], "", "DATABRICKS_WAREHOUSE_ID not set."
+        return [], "", html.Div("DATABRICKS_WAREHOUSE_ID not set.", className="app-error")
     try:
         c = obo_client()
         cls = data_loader.load_classified(c, warehouse_id=WAREHOUSE, working_schema=SCHEMA)
         st = data_loader.load_pinchpoint_status(c, warehouse_id=WAREHOUSE, working_schema=SCHEMA)
     except RuntimeError as e:
-        return [], "", str(e)
+        return [], "", html.Div(str(e), className="app-error")
     rows = _build_rows(cls, st)
     cleared = sum(1 for r in rows if r["status"] == "Cleared")
-    bar = dbc.Progress(value=100 * cleared / max(1, len(rows)),
-                       label=f"{cleared} / {len(rows)} cleared",
-                       style={"height": "24px"})
-    return rows, bar, ""
+    return rows, _progress_banner(cleared, len(rows)), ""
 
 
 @callback(
@@ -106,5 +172,5 @@ def _persist(_ts, data, prev, user):
                 updated_by=user_email(),
             )
     except (RuntimeError, ValueError) as e:
-        return f"Save failed: {e}"
+        return html.Div(f"Save failed: {e}", className="app-error")
     return ""
