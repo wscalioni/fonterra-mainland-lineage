@@ -1,0 +1,305 @@
+/* Mainland Lineage — Fonterra brand layer.
+   Loaded automatically by Dash via app/assets/. */
+
+:root {
+  --fonterra-blue:        #00539B;
+  --fonterra-light-blue:  #00AEEF;
+  --fonterra-green:       #72BF44;
+  --ink:                  #111827;
+  --text:                 #374151;
+  --muted:                #6B7280;
+  --rule:                 #E5E7EB;
+  --surface:              #FFFFFF;
+  --canvas:               #FAFAF8;
+  --danger:               #D32F2F;
+  --warning:              #E65100;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--canvas);
+  color: var(--text);
+  font-family: "Assistant", system-ui, -apple-system, sans-serif;
+  font-feature-settings: "tnum";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--ink);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-top: 0;
+}
+
+a { color: var(--fonterra-blue); text-decoration: none; }
+a:hover { color: var(--fonterra-light-blue); text-decoration: underline; }
+
+/* Eyebrow / section label */
+.app-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  align-items: center;
+  background: var(--fonterra-blue);
+  color: #fff;
+  padding: 14px 32px;
+  border-bottom: 4px solid var(--fonterra-light-blue);
+}
+
+.app-header__logo {
+  height: 28px;
+  width: auto;
+  margin-right: 24px;
+  filter: brightness(0) invert(1);
+}
+
+.app-header__brand {
+  display: flex;
+  flex-direction: column;
+  margin-right: 48px;
+}
+
+.app-header__brand-line {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.app-header__brand-sub {
+  font-family: "Courgette", "Assistant", cursive;
+  font-size: 13px;
+  margin-top: 2px;
+  opacity: 0.85;
+  line-height: 1;
+}
+
+.app-header__nav {
+  display: flex;
+  gap: 28px;
+  flex: 1;
+}
+
+.app-header__nav a {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.78;
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+}
+
+.app-header__nav a.is-active {
+  opacity: 1;
+  font-weight: 700;
+  border-bottom-color: var(--fonterra-light-blue);
+}
+
+.app-header__nav a:hover {
+  opacity: 1;
+  text-decoration: none;
+}
+
+/* Page container */
+.app-page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 48px 32px;
+}
+
+.app-page h2 {
+  font-size: 32px;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.app-page__subtitle {
+  color: var(--muted);
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 40px;
+}
+
+/* KPI card grid */
+.app-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+  margin: 24px 0 56px;
+}
+
+@media (max-width: 1100px) { .app-kpi-row { grid-template-columns: repeat(2, 1fr); } }
+
+.app-kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  padding: 20px 22px 22px;
+}
+
+.app-kpi-card__label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.app-kpi-card__value {
+  color: var(--ink);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.app-kpi-card__sub {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Heat map */
+.app-heat {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.app-heat__tile {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 6px 10px;
+  color: #fff;
+  border-radius: 0;
+  cursor: default;
+}
+
+.app-heat__tile--danger  { background: var(--danger); }
+.app-heat__tile--warning { background: var(--warning); }
+.app-heat__tile--ok      { background: var(--fonterra-green); color: #0d3a0a; }
+
+/* Status pill */
+.app-pill {
+  display: inline-block;
+  padding: 2px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.app-pill--pending          { background: #F3F4F6; color: #4B5563; border-color: #D1D5DB; }
+.app-pill--uc-tagged        { background: #DBEAFE; color: #1E40AF; border-color: #BFDBFE; }
+.app-pill--row-filtered     { background: #E0F2FE; color: #075985; border-color: #BAE6FD; }
+.app-pill--attested         { background: #FEF3C7; color: #92400E; border-color: #FDE68A; }
+.app-pill--cleared          { background: #DCFCE7; color: #14532D; border-color: #86EFAC; }
+
+/* Tables */
+.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner {
+  font-family: "Assistant", system-ui, sans-serif !important;
+  font-size: 13px !important;
+}
+
+.dash-table-container .dash-header {
+  background: var(--canvas) !important;
+  color: var(--ink) !important;
+  font-weight: 700 !important;
+  border-bottom: 2px solid var(--ink) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11px !important;
+}
+
+.dash-table-container .dash-cell {
+  border-bottom: 1px solid var(--rule) !important;
+}
+
+/* Buttons */
+.btn-primary, button.btn-primary {
+  background-color: var(--fonterra-blue) !important;
+  border-color: var(--fonterra-blue) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+}
+.btn-primary:hover { background-color: var(--fonterra-light-blue) !important; border-color: var(--fonterra-light-blue) !important; }
+
+/* Sidebar (graph explorer + search) */
+.app-sidebar {
+  border-right: 1px solid var(--rule);
+  padding-right: 24px;
+}
+
+.app-sidebar h5 {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* Search input */
+.app-search-bar input {
+  font-size: 18px !important;
+  padding: 14px 18px !important;
+  border: 1px solid var(--rule) !important;
+  border-right: 0 !important;
+}
+.app-search-bar input:focus {
+  outline: none;
+  border-color: var(--fonterra-blue) !important;
+  box-shadow: 0 0 0 3px rgba(0,83,155,0.12);
+}
+.app-search-bar .btn-primary {
+  border-radius: 0 !important;
+  padding: 14px 24px !important;
+}
+
+/* Section headings on dashboard */
+.app-section-h {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 40px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--ink);
+}
+.app-section-h h4 {
+  font-size: 18px;
+  margin: 0;
+}
+.app-section-h__count {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Cytoscape container — let it own the white space */
+.app-graph-shell {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+}
+
+/* Error banner */
+.app-error {
+  background: #FEF2F2;
+  border: 1px solid #FCA5A5;
+  color: #991B1B;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  font-size: 13px;
+}
