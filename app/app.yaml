@@ -1,0 +1,7 @@
+command: ["python", "app.py"]
+
+env:
+  - name: DATABRICKS_WAREHOUSE_ID
+    value: "406253829ca12fd5"
+  - name: WORKING_SCHEMA
+    value: "aw_internal_adpcoe.mainland_lineage_analysis"
