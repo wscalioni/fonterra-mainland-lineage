@@ -6,7 +6,7 @@ import os
 import dash
 import dash_bootstrap_components as dbc
 import dash_cytoscape as cyto
-from dash import Input, Output, State, callback, dcc, html
+from dash import Input, Output, callback, dcc, html
 
 from lib import cytoscape_builder, data_loader
 from lib.auth import obo_client
@@ -25,31 +25,45 @@ CATEGORIES = [
 
 
 def layout():
-    return dbc.Row([
-        dbc.Col([
-            html.H5("Filters", className="mt-3"),
-            dbc.Checklist(
-                id="g-cat",
-                options=[{"label": c, "value": c} for c in CATEGORIES],
-                value=["CO_MINGLED_UPSTREAM", "CO_MINGLED_DOWNSTREAM"],
-                inline=False,
-            ),
-            html.Hr(),
-            dbc.Switch(id="g-pinch-only", label="Pinch-points + 1-hop only", value=True),
-            dbc.Switch(id="g-hide-edges", label="Hide edges (faster)", value=False),
-            html.Hr(),
-            html.Div(id="g-info", className="small"),
-        ], width=3),
-        dbc.Col([
-            cyto.Cytoscape(
-                id="g-graph",
-                elements=[],
-                layout={"name": "dagre", "rankDir": "LR"},
-                stylesheet=cytoscape_builder.CYTOSCAPE_STYLESHEET,
-                style={"height": "85vh", "width": "100%"},
-            ),
-            dcc.Interval(id="g-load-once", n_intervals=0, max_intervals=1, interval=100),
-        ], width=9),
+    return html.Div([
+        html.Div("Lineage explorer", className="app-eyebrow"),
+        html.H2("UC lineage spider-web"),
+        html.P(
+            "Walked from system.access.table_lineage. Click a node for "
+            "category and degree. CO_MINGLED nodes are the engineering scope.",
+            className="app-page__subtitle",
+        ),
+        dbc.Row([
+            dbc.Col([
+                html.Div([
+                    html.H5("Categories"),
+                    dbc.Checklist(
+                        id="g-cat",
+                        options=[{"label": c, "value": c} for c in CATEGORIES],
+                        value=["CO_MINGLED_UPSTREAM", "CO_MINGLED_DOWNSTREAM"],
+                        inline=False,
+                    ),
+                    html.H5("View", style={"marginTop": "24px"}),
+                    dbc.Switch(id="g-pinch-only", label="Pinch-points + 1-hop only", value=True),
+                    dbc.Switch(id="g-hide-edges", label="Hide edges (faster)", value=False),
+                    html.Div(style={"borderTop": "1px solid var(--rule)", "marginTop": "20px", "paddingTop": "20px"},
+                             children=html.Div(id="g-info", className="app-kpi-card__sub")),
+                ], className="app-sidebar"),
+            ], width=3),
+            dbc.Col([
+                html.Div(
+                    cyto.Cytoscape(
+                        id="g-graph",
+                        elements=[],
+                        layout={"name": "dagre", "rankDir": "LR"},
+                        stylesheet=cytoscape_builder.CYTOSCAPE_STYLESHEET,
+                        style={"height": "78vh", "width": "100%"},
+                    ),
+                    className="app-graph-shell",
+                ),
+                dcc.Interval(id="g-load-once", n_intervals=0, max_intervals=1, interval=100),
+            ], width=9),
+        ]),
     ])
 
 
@@ -88,7 +102,11 @@ def _node_info(data):
     if not data:
         return dash.no_update
     return html.Div([
-        html.Div(html.Strong(data["id"])),
-        html.Div(f"{data['category']}"),
-        html.Div(f"up={data['n_upstream']} dn={data['n_downstream']} bridge={data['bridge_score']:.2f}"),
+        html.Div(html.Strong(data["id"]), style={"wordBreak": "break-all"}),
+        html.Div(data["category"], style={"marginTop": "8px", "fontWeight": "700"}),
+        html.Div(
+            f"upstream {data['n_upstream']} . downstream {data['n_downstream']} . "
+            f"bridge {data['bridge_score']:.2f}",
+            style={"marginTop": "4px"},
+        ),
     ])
