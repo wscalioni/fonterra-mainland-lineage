@@ -55,3 +55,26 @@ def test_branded_header_brand_includes_courgette_subtitle():
     h = branded_header()
     subs = [n for n in _walk(h) if "app-header__brand-sub" in _classes(n)]
     assert len(subs) == 1
+
+
+from components.kpi_card import kpi_card
+
+
+def test_kpi_card_renders_label_value_and_sub():
+    c = kpi_card("Pinch-points", "12 / 49", "cleared")
+    text_nodes = [str(n.children) for n in _walk(c) if hasattr(n, "children") and isinstance(n.children, str)]
+    joined = " | ".join(text_nodes)
+    assert "Pinch-points" in joined
+    assert "12 / 49" in joined
+    assert "cleared" in joined
+
+
+def test_kpi_card_omits_sub_when_none():
+    c = kpi_card("TSA exit", "2028-04-01")
+    subs = [n for n in _walk(c) if "app-kpi-card__sub" in _classes(n)]
+    assert subs == []
+
+
+def test_kpi_card_uses_app_kpi_card_class():
+    c = kpi_card("X", "Y")
+    assert "app-kpi-card" in _classes(c)
