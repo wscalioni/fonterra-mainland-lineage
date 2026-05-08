@@ -25,9 +25,14 @@ ORDER BY event_count DESC
 
 def layout():
     return html.Div([
-        html.H2("Workspace identities", className="mt-3"),
-        html.P("Annotate workspace IDs that appear in lineage events."),
-        html.Div(id="ws-error", className="text-danger"),
+        html.Div("Lineage sources", className="app-eyebrow"),
+        html.H2("Workspace identities"),
+        html.P(
+            "Workspace IDs that appear in lineage events over the last 30 days. "
+            "Annotate each with a recognisable name so edge tooltips read clearly.",
+            className="app-page__subtitle",
+        ),
+        html.Div(id="ws-error"),
         dash_table.DataTable(
             id="ws-table",
             columns=[
@@ -37,7 +42,24 @@ def layout():
                 {"name": "Notes", "id": "notes", "editable": True},
             ],
             data=[],
-            style_cell={"fontSize": "0.85em", "fontFamily": "system-ui"},
+            style_cell={
+                "fontFamily": "Assistant, system-ui, sans-serif",
+                "fontSize": "13px",
+                "padding": "10px 8px",
+                "border": "0",
+                "borderBottom": "1px solid var(--rule)",
+                "textAlign": "left",
+            },
+            style_header={
+                "fontWeight": "700",
+                "textTransform": "uppercase",
+                "letterSpacing": "0.06em",
+                "fontSize": "11px",
+                "color": "var(--ink)",
+                "borderBottom": "2px solid var(--ink)",
+                "background": "var(--canvas)",
+            },
+            style_as_list_view=True,
         ),
         dcc.Store(id="ws-user", data={"email": "unknown@databricks.com"}),
         dcc.Interval(id="ws-load-once", n_intervals=0, max_intervals=1, interval=100),
@@ -51,7 +73,7 @@ def layout():
 )
 def _initial(_n):
     if not WAREHOUSE:
-        return [], "DATABRICKS_WAREHOUSE_ID not set."
+        return [], html.Div("DATABRICKS_WAREHOUSE_ID not set.", className="app-error")
     try:
         c = obo_client()
         events = data_loader._execute(c, warehouse_id=WAREHOUSE, statement=EVENTS_QUERY)
@@ -59,7 +81,7 @@ def _initial(_n):
             c, warehouse_id=WAREHOUSE, working_schema=SCHEMA,
         )
     except RuntimeError as e:
-        return [], str(e)
+        return [], html.Div(str(e), className="app-error")
     if identities.empty:
         events["display_name"] = ""
         events["notes"] = ""
@@ -96,5 +118,5 @@ def _persist(_ts, data, prev, user):
                 updated_by=user_email(),
             )
     except RuntimeError as e:
-        return f"Save failed: {e}"
+        return html.Div(f"Save failed: {e}", className="app-error")
     return ""

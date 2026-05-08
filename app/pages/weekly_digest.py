@@ -41,23 +41,44 @@ ORDER BY updated_at DESC
 """
 
 
+def _column(title, body_id):
+    return html.Div(
+        [
+            html.Div(title, className="app-eyebrow", style={"marginBottom": "12px"}),
+            html.Div(id=body_id),
+        ],
+        style={
+            "background": "var(--surface)",
+            "border": "1px solid var(--rule)",
+            "padding": "20px 22px",
+        },
+    )
+
+
 def layout():
     return html.Div([
-        html.H2("Weekly digest", className="mt-3"),
+        html.Div("This week", className="app-eyebrow"),
+        html.H2("Weekly digest"),
+        html.P(
+            "Mirrors what changed in lineage and engineering progress. "
+            "Populates after the nightly incremental refresh runs.",
+            className="app-page__subtitle",
+        ),
+        html.Div(id="d-error"),
         dbc.Row([
-            dbc.Col([html.H5("New nodes (incremental)"), html.Div(id="d-new-nodes")]),
-            dbc.Col([html.H5("Newly CO_MINGLED"), html.Div(id="d-new-pinch")]),
-            dbc.Col([html.H5("Cleared this week"), html.Div(id="d-cleared")]),
-        ]),
-        html.Div(id="d-error", className="text-danger"),
+            dbc.Col(_column("New nodes", "d-new-nodes"), width=4),
+            dbc.Col(_column("Newly CO_MINGLED", "d-new-pinch"), width=4),
+            dbc.Col(_column("Cleared this week", "d-cleared"), width=4),
+        ], className="g-3"),
         dcc.Interval(id="d-load-once", n_intervals=0, max_intervals=1, interval=100),
     ])
 
 
 def _table(df, columns):
     if df.empty:
-        return html.Em("none")
-    return dbc.Table.from_dataframe(df[columns], striped=True, size="sm")
+        return html.Div("none", style={"color": "var(--muted)", "fontStyle": "italic"})
+    return dbc.Table.from_dataframe(df[columns], striped=False, size="sm",
+                                     className="app-digest-table")
 
 
 @callback(
@@ -69,7 +90,7 @@ def _table(df, columns):
 )
 def _load(_n):
     if not WAREHOUSE:
-        return "", "", "", "DATABRICKS_WAREHOUSE_ID not set."
+        return "", "", "", html.Div("DATABRICKS_WAREHOUSE_ID not set.", className="app-error")
     try:
         c = obo_client()
         new_nodes = data_loader._execute(c, warehouse_id=WAREHOUSE,
@@ -79,7 +100,7 @@ def _load(_n):
         cleared = data_loader._execute(c, warehouse_id=WAREHOUSE,
                                         statement=CLEARED_QUERY.format(schema=SCHEMA))
     except RuntimeError as e:
-        return "", "", "", f"Error: {e}"
+        return "", "", "", html.Div(f"Error: {e}", className="app-error")
     return (
         _table(new_nodes, ["full_name", "category"]),
         _table(new_pinch, ["node", "category"]),
