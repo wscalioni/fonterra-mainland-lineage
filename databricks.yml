@@ -1,0 +1,78 @@
+bundle:
+  name: fonterra-mainland-lineage
+  git:
+    origin_url: https://github.com/wscalioni/fonterra-mainland-lineage
+    branch: main
+
+variables:
+  warehouse_id:
+    description: "Serverless SQL warehouse ID in the target workspace."
+    default: "406253829ca12fd5"
+  working_schema:
+    default: "aw_internal_adpcoe.mainland_lineage_analysis"
+  programme_group:
+    description: "UC group name for divestment programme users."
+    default: "fonterra-divestment-programme"
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      profile: FONTERRA
+      host: https://adb-2924922257177540.0.azuredatabricks.net
+  prod:
+    mode: production
+    workspace:
+      profile: FONTERRA
+      host: https://adb-2924922257177540.0.azuredatabricks.net
+
+resources:
+  apps:
+    mainland_lineage_app:
+      name: "mainland-lineage"
+      description: "Fonterra Mainland divestment — lineage explorer for Mike T"
+      source_code_path: ./app
+      config:
+        command: ["python", "app.py"]
+        env:
+          - name: DATABRICKS_WAREHOUSE_ID
+            value: ${var.warehouse_id}
+          - name: WORKING_SCHEMA
+            value: ${var.working_schema}
+      oauth:
+        scopes:
+          - sql
+          - all-apis
+      permissions:
+        - level: CAN_USE
+          group_name: ${var.programme_group}
+
+  jobs:
+    mainland_lineage_nightly:
+      name: "Mainland Lineage — Nightly Incremental Refresh"
+      schedule:
+        quartz_cron_expression: "0 0 3 * * ?"
+        timezone_id: "Pacific/Auckland"
+        pause_status: PAUSED
+      tasks:
+        - task_key: incremental_refresh
+          python_script_task:
+            python_file: ./jobs/nightly_refresh.py
+            parameters:
+              - "--warehouse-id"
+              - ${var.warehouse_id}
+              - "--working-schema"
+              - ${var.working_schema}
+          job_cluster_key: refresh_cluster
+      job_clusters:
+        - job_cluster_key: refresh_cluster
+          new_cluster:
+            spark_version: "15.4.x-scala2.12"
+            node_type_id: Standard_DS3_v2
+            num_workers: 1
+            spark_conf:
+              spark.databricks.cluster.profile: singleNode
+      email_notifications:
+        on_failure:
+          - will.scalioni@databricks.com
