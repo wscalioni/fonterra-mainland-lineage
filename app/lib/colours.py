@@ -1,18 +1,24 @@
-"""Re-export CATEGORY_COLOUR from lib/visualize.py — single source of truth."""
+"""Category colours for the Mainland Lineage app.
+
+KEEP IN SYNC with the canonical CATEGORY_COLOUR dict in lib/visualize.py
+(repo root). The pipeline runs from repo root and uses lib/visualize.py;
+the app runs from the app/ subtree and uses this file. Databricks Apps only
+bundles source_code_path (./app), so we cannot import the canonical dict at
+runtime — duplication is the pragmatic answer.
+
+If you change a colour here, change it in lib/visualize.py too.
+"""
 from __future__ import annotations
 
-import importlib.util
-from pathlib import Path
-
-# Load the repo-root lib/visualize.py directly by file path. Going via the
-# normal `import lib.visualize` machinery doesn't work here because `lib` is
-# already bound to this package (`app/lib`) once conftest puts `app/` on
-# sys.path — the repo-root `lib/` has no __init__.py and is invisible.
-_VISUALIZE_PATH = Path(__file__).resolve().parents[2] / "lib" / "visualize.py"
-_spec = importlib.util.spec_from_file_location("_root_visualize", _VISUALIZE_PATH)
-_mod = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(_mod)  # type: ignore[union-attr]
-
-CATEGORY_COLOUR = _mod.CATEGORY_COLOUR
+CATEGORY_COLOUR = {
+    "MAINLAND_TAGGED":        "#4CAF50",
+    "MAINLAND_INTERIOR":      "#2E7D32",
+    "MAINLAND_SOURCE":        "#1976D2",
+    "MAINLAND_SINK":          "#0288D1",
+    "CO_MINGLED_UPSTREAM":    "#E65100",
+    "CO_MINGLED_DOWNSTREAM":  "#D32F2F",
+    "RETAINED_OR_INDIRECT":   "#9E9E9E",
+    "UNCLASSIFIED":           "#BDBDBD",
+}
 
 __all__ = ["CATEGORY_COLOUR"]
