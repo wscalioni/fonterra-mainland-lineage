@@ -5,3 +5,7 @@ env:
     value: "406253829ca12fd5"
   - name: WORKING_SCHEMA
     value: "aw_internal_adpcoe.mainland_lineage_analysis"
+
+user_authorization:
+  scopes:
+    - sql
