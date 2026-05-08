@@ -57,7 +57,7 @@ resources:
         pause_status: PAUSED
       tasks:
         - task_key: incremental_refresh
-          python_script_task:
+          spark_python_task:
             python_file: ./jobs/nightly_refresh.py
             parameters:
               - "--warehouse-id"
