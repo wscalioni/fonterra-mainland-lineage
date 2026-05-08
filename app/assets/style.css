@@ -59,7 +59,7 @@ a:hover { color: var(--fonterra-light-blue); text-decoration: underline; }
   height: 28px;
   width: auto;
   margin-right: 24px;
-  filter: brightness(0) invert(1);
+  /* Logo asset is the Fonterra masterbrand-white PNG — already white on transparent. */
 }
 
 .app-header__brand {
