@@ -7,9 +7,9 @@ import dash
 import dash_bootstrap_components as dbc
 import pandas as pd
 from dash import Input, Output, State, callback, dash_table, dcc, html
-from databricks.sdk import WorkspaceClient
 
 from lib import data_loader, status_writer
+from lib.auth import obo_client, user_email
 
 dash.register_page(__name__, path="/pinchpoints", name="Pinch-points")
 
@@ -69,7 +69,7 @@ def _initial(_n):
     if not WAREHOUSE:
         return [], "", "DATABRICKS_WAREHOUSE_ID not set."
     try:
-        c = WorkspaceClient()
+        c = obo_client()
         cls = data_loader.load_classified(c, warehouse_id=WAREHOUSE, working_schema=SCHEMA)
         st = data_loader.load_pinchpoint_status(c, warehouse_id=WAREHOUSE, working_schema=SCHEMA)
     except RuntimeError as e:
@@ -98,12 +98,12 @@ def _persist(_ts, data, prev, user):
     if not diffs:
         return ""
     try:
-        c = WorkspaceClient()
+        c = obo_client()
         for r in diffs:
             status_writer.set_pinchpoint_status(
                 c, warehouse_id=WAREHOUSE, working_schema=SCHEMA,
                 node=r["node"], status=r["status"], notes=r["notes"] or "",
-                updated_by=user.get("email", "unknown"),
+                updated_by=user_email(),
             )
     except (RuntimeError, ValueError) as e:
         return f"Save failed: {e}"

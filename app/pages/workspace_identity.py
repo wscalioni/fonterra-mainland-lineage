@@ -5,9 +5,9 @@ import os
 
 import dash
 from dash import Input, Output, State, callback, dash_table, dcc, html
-from databricks.sdk import WorkspaceClient
 
 from lib import data_loader, status_writer
+from lib.auth import obo_client, user_email
 
 dash.register_page(__name__, path="/workspaces", name="Workspaces")
 
@@ -53,7 +53,7 @@ def _initial(_n):
     if not WAREHOUSE:
         return [], "DATABRICKS_WAREHOUSE_ID not set."
     try:
-        c = WorkspaceClient()
+        c = obo_client()
         events = data_loader._execute(c, warehouse_id=WAREHOUSE, statement=EVENTS_QUERY)
         identities = data_loader.load_workspace_identities(
             c, warehouse_id=WAREHOUSE, working_schema=SCHEMA,
@@ -86,14 +86,14 @@ def _persist(_ts, data, prev, user):
     if not diffs:
         return ""
     try:
-        c = WorkspaceClient()
+        c = obo_client()
         for r in diffs:
             status_writer.set_workspace_identity(
                 c, warehouse_id=WAREHOUSE, working_schema=SCHEMA,
                 workspace_id=r["workspace_id"],
                 display_name=r["display_name"] or "",
                 notes=r["notes"] or "",
-                updated_by=user.get("email", "unknown"),
+                updated_by=user_email(),
             )
     except RuntimeError as e:
         return f"Save failed: {e}"

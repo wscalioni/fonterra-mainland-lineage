@@ -7,9 +7,9 @@ import dash
 import dash_bootstrap_components as dbc
 import dash_cytoscape as cyto
 from dash import Input, Output, State, callback, dcc, html
-from databricks.sdk import WorkspaceClient
 
 from lib import cytoscape_builder, data_loader
+from lib.auth import obo_client
 
 cyto.load_extra_layouts()
 dash.register_page(__name__, path="/graph", name="Graph")
@@ -65,7 +65,7 @@ def _render(cats, pinch_only, hide_edges, _n):
     if not WAREHOUSE:
         return [], "DATABRICKS_WAREHOUSE_ID not set."
     try:
-        c = WorkspaceClient()
+        c = obo_client()
         cls = data_loader.load_classified(c, warehouse_id=WAREHOUSE, working_schema=SCHEMA)
         edges = data_loader.load_edges(c, warehouse_id=WAREHOUSE, working_schema=SCHEMA)
     except RuntimeError as e:

@@ -6,9 +6,9 @@ import os
 import dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, callback, dcc, html
-from databricks.sdk import WorkspaceClient
 
 from lib import data_loader
+from lib.auth import obo_client
 
 dash.register_page(__name__, path="/digest", name="Weekly digest")
 
@@ -71,7 +71,7 @@ def _load(_n):
     if not WAREHOUSE:
         return "", "", "", "DATABRICKS_WAREHOUSE_ID not set."
     try:
-        c = WorkspaceClient()
+        c = obo_client()
         new_nodes = data_loader._execute(c, warehouse_id=WAREHOUSE,
                                           statement=NEW_NODES_QUERY.format(schema=SCHEMA))
         new_pinch = data_loader._execute(c, warehouse_id=WAREHOUSE,

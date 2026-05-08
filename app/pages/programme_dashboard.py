@@ -8,9 +8,9 @@ import dash
 import dash_bootstrap_components as dbc
 import pandas as pd
 from dash import Input, Output, callback, dcc, html
-from databricks.sdk import WorkspaceClient
 
 from lib import data_loader
+from lib.auth import obo_client
 
 dash.register_page(__name__, path="/", name="Dashboard")
 
@@ -51,7 +51,7 @@ def _load(_n):
     if not WAREHOUSE:
         return [], [], "DATABRICKS_WAREHOUSE_ID not set."
     try:
-        client = WorkspaceClient()
+        client = obo_client()
         classified = data_loader.load_classified(client, warehouse_id=WAREHOUSE, working_schema=SCHEMA)
         status = data_loader.load_pinchpoint_status(client, warehouse_id=WAREHOUSE, working_schema=SCHEMA)
         refresh = data_loader.load_refresh_control(client, warehouse_id=WAREHOUSE, working_schema=SCHEMA)
