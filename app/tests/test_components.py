@@ -78,3 +78,25 @@ def test_kpi_card_omits_sub_when_none():
 def test_kpi_card_uses_app_kpi_card_class():
     c = kpi_card("X", "Y")
     assert "app-kpi-card" in _classes(c)
+
+
+import pytest
+from components.status_pill import status_pill, STATUS_TO_CLASS
+
+
+@pytest.mark.parametrize("status,suffix", list(STATUS_TO_CLASS.items()))
+def test_status_pill_class_for(status, suffix):
+    s = status_pill(status)
+    assert "app-pill" in _classes(s)
+    assert suffix in _classes(s)
+
+
+def test_status_pill_renders_status_text():
+    s = status_pill("UC Tagged")
+    text_nodes = [str(n.children) for n in _walk(s) if hasattr(n, "children") and isinstance(n.children, str)]
+    assert "UC Tagged" in " | ".join(text_nodes)
+
+
+def test_status_pill_unknown_status_falls_back_to_pending():
+    s = status_pill("Whatever")
+    assert "app-pill--pending" in _classes(s)
