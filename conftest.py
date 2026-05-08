@@ -1,14 +1,9 @@
-"""Pytest bootstrap: ensure repo root is on sys.path so `app.lib.*` imports resolve.
-
-`app/` is intentionally not a package (no __init__.py) so the Dash entrypoint
-can run as a module from inside the bundle. This conftest at the repo root
-prepends the repo path so `from app.lib import ...` works under pytest.
+"""Make `app/` the test import root so `from lib.X import Y` works in tests
+just as it does at Databricks Apps runtime.
 """
-from __future__ import annotations
-
 import sys
 from pathlib import Path
 
-_REPO_ROOT = Path(__file__).resolve().parent
-if str(_REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(_REPO_ROOT))
+_APP_DIR = Path(__file__).resolve().parent / "app"
+if str(_APP_DIR) not in sys.path:
+    sys.path.insert(0, str(_APP_DIR))

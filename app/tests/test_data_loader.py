@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from app.lib import data_loader
+from lib import data_loader
 
 
 def _mock_client(rows, schema):
